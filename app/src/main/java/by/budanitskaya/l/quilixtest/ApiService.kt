@@ -4,8 +4,6 @@ package by.budanitskaya.l.quilixtest
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
-import retrofit2.Retrofit
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -45,14 +43,3 @@ data class CurrencyInfo @JvmOverloads constructor(
     @param:Element(name = "Rate")
     var rate: Float? = null,
 )
-
-inline fun <reified T> createApiService(
-    url: String
-): T {
-
-    val retrofit = Retrofit.Builder()
-        .baseUrl(url)
-        .addConverterFactory(SimpleXmlConverterFactory.create())
-        .build()
-    return retrofit.create(T::class.java)
-}
