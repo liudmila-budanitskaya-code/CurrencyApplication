@@ -54,7 +54,7 @@ class CurrencyInfoAdapter(
             binding.textViewNumCodeName.text = "$name"
             val currentCurrencyInfo = currencyData[adapterPosition].currentDayRate
             binding.textViewYesterdayRate.text = currentCurrencyInfo.toString()
-            val tomorrowCurrencyInfo = currencyData[adapterPosition].currentDayRate
+            val tomorrowCurrencyInfo = currencyData[adapterPosition].nextDayRate
             binding.textViewTodayRate.text = tomorrowCurrencyInfo.toString()
         }
     }
