@@ -8,11 +8,12 @@ import by.budanitskaya.l.quilixtest.datasource.CurrencyDataSource
 import by.budanitskaya.l.quilixtest.network.safeapicall.ResponseStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import by.budanitskaya.l.quilixtest.network.models.ResponseData
+import by.budanitskaya.l.quilixtest.repository.CurrencyRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(var currencyDataSource: CurrencyDataSource) : ViewModel() {
+class MainViewModel @Inject constructor(var currencyRepository: CurrencyRepository) : ViewModel() {
 
     private var _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
@@ -25,7 +26,7 @@ class MainViewModel @Inject constructor(var currencyDataSource: CurrencyDataSour
 
     private fun fetchData() {
         viewModelScope.launch {
-            data = currencyDataSource.fetchData("10/28/2021")
+            data = currencyRepository.fetchData("10/28/2021")
             when (data) {
                 is ResponseStatus.Success -> {
                     _message.value =
