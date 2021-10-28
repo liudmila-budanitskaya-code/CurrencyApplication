@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.transition.Visibility
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentCurrencyInfoBinding
 import by.budanitskaya.l.quilixtest.network.models.CurrencyInfo
+import by.budanitskaya.l.quilixtest.ui.currencyinfo.adapters.CurrencyInfoAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +36,8 @@ class CurrencyInfoFragment : Fragment() {
             inflater,
             R.layout.fragment_currency_info, container, false
         )
+        binding.lifecycleOwner = this
+        binding.viewmodel = viewModel
 
         setHasOptionsMenu(true)
 

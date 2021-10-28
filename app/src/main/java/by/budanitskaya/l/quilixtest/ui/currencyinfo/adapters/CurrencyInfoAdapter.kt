@@ -1,4 +1,4 @@
-package by.budanitskaya.l.quilixtest.ui.currencyinfo
+package by.budanitskaya.l.quilixtest.ui.currencyinfo.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -33,6 +33,7 @@ class CurrencyInfoAdapter(
 
         when (holder) {
             is CurrencyInfoViewHolder -> holder.bind()
+            is HeaderViewHolder -> holder.bind()
         }
     }
 
@@ -57,11 +58,11 @@ class CurrencyInfoAdapter(
     }
 
     class HeaderViewHolder(
-        private val binding: HeaderItemBinding,
+        binding: HeaderItemBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
-
+            // do nothing
         }
     }
 

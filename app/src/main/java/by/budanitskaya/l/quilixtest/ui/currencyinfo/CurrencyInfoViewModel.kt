@@ -9,6 +9,7 @@ import by.budanitskaya.l.quilixtest.network.models.ResponseData
 import by.budanitskaya.l.quilixtest.network.safeapicall.ResponseStatus
 import by.budanitskaya.l.quilixtest.repository.CurrencyRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +18,13 @@ class CurrencyInfoViewModel @Inject constructor(var currencyRepository: Currency
     ViewModel() {
 
     private val _currencyDataList = MutableLiveData<List<CurrencyInfo>>()
-    val currencyDataList : LiveData<List<CurrencyInfo>> = _currencyDataList
+    val currencyDataList: LiveData<List<CurrencyInfo>> = _currencyDataList
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _isError = MutableLiveData<Boolean>()
+    val isError: LiveData<Boolean> = _isError
 
     private lateinit var data: ResponseStatus<ResponseData>
 
@@ -26,27 +33,19 @@ class CurrencyInfoViewModel @Inject constructor(var currencyRepository: Currency
     }
 
     private fun fetchData() {
+        _isLoading.value = true
         viewModelScope.launch {
             data = currencyRepository.fetchData("10/28/2021")
+            delay(3000)
             when (data) {
                 is ResponseStatus.Success -> {
-                    _currencyDataList.value = (data as ResponseStatus.Success<ResponseData>).value.listCurrencyInfo
+                    _currencyDataList.value =
+                        (data as ResponseStatus.Success<ResponseData>).value.listCurrencyInfo
+                    _isLoading.value = false
                 }
                 is ResponseStatus.Failure -> {
-                }
-            }
-        }
-    }
-
-    fun retrieveCurrencyList() {
-        viewModelScope.launch {
-            data = currencyRepository.fetchData("10/28/2021")
-            when (data) {
-                is ResponseStatus.Success -> {
-//                    _message.value =
-//                        (data as ResponseStatus.Success<ResponseData>).value.listCurrencyInfo?.get(0)?.name
-                }
-                is ResponseStatus.Failure -> {
+                    _isError.value = true
+                    _isLoading.value = false
                 }
             }
         }
