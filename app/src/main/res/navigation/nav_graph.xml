@@ -18,5 +18,9 @@
         android:id="@+id/settingsFragment"
         android:name="by.budanitskaya.l.quilixtest.ui.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_currencyInfoFragment"
+            app:destination="@id/currencyInfoFragment" />
+    </fragment>
 </navigation>

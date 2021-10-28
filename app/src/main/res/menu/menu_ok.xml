@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/option_settings"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/currency_info_screen_settings"
+        android:id="@+id/option_ok"
+        android:icon="@drawable/ic_done"
+        android:title="@string/settings_screen_ok"
         app:showAsAction="ifRoom" />
 </menu>

@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentCurrencyInfoBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +19,10 @@ class CurrencyInfoFragment : Fragment() {
         )
     }
     private lateinit var binding: FragmentCurrencyInfoBinding
+
+    private val navController by lazy {
+        findNavController()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +57,8 @@ class CurrencyInfoFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.settings -> {
+            R.id.option_settings -> {
+                navController.navigate(R.id.action_currencyInfoFragment_to_settingsFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
