@@ -9,6 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:padding="@dimen/dimen_10"
+        android:background="@color/gray"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -16,24 +17,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/text_view_num_code_name"
+            android:text="TextView"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_view_num_code_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_view_char_code" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_yesterday_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="TextView"
+            android:background="@android:color/transparent"
             android:layout_marginEnd="@dimen/dimen_120"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,10 +42,12 @@
             android:id="@+id/text_view_today_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Visibility
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentCurrencyInfoBinding
+import by.budanitskaya.l.quilixtest.network.models.CurrencyInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,6 +20,7 @@ class CurrencyInfoFragment : Fragment() {
             CurrencyInfoViewModel::class.java
         )
     }
+
     private lateinit var binding: FragmentCurrencyInfoBinding
 
     private val navController by lazy {
@@ -44,9 +47,15 @@ class CurrencyInfoFragment : Fragment() {
         initObservers()
     }
 
+    private fun setUpRecyclerView(list: List<CurrencyInfo>) {
+        val adapter = CurrencyInfoAdapter(list)
+        binding.recyclerCurrencyInfoList.adapter = adapter
+        binding.recyclerCurrencyInfoList.visibility = View.VISIBLE
+    }
+
     private fun initObservers() {
-        viewModel.message.observe(viewLifecycleOwner, {
-            binding.textViewData.text = it
+        viewModel.currencyDataList.observe(viewLifecycleOwner, {
+            setUpRecyclerView(it)
         })
     }
 
