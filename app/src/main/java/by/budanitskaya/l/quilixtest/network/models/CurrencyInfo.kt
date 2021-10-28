@@ -1,25 +1,7 @@
-package by.budanitskaya.l.quilixtest
-
+package by.budanitskaya.l.quilixtest.network.models
 
 import org.simpleframework.xml.Element
-import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
-import retrofit2.http.GET
-import retrofit2.http.Query
-
-interface ApiService {
-    @GET("Services/XmlExRates.aspx")
-    suspend fun getFeed(@Query("ondate") onDate: String): ResponseData
-}
-
-
-@Root(name = "DailyExRates", strict = false)
-data class ResponseData @JvmOverloads constructor(
-    @field:ElementList(name = "Currency", inline = true, required = false)
-    @param:ElementList(name = "Currency", inline = true, required = false)
-    var listCurrencyInfo: List<CurrencyInfo>? =
-        null
-)
 
 @Root(name = "Currency", strict = false)
 data class CurrencyInfo @JvmOverloads constructor(

@@ -1,8 +1,8 @@
 package by.budanitskaya.l.quilixtest.di
 
-import by.budanitskaya.l.quilixtest.ApiService
+import by.budanitskaya.l.quilixtest.network.apiservice.ApiService
 import by.budanitskaya.l.quilixtest.BuildConfig
-import by.budanitskaya.l.quilixtest.network.SafeApiCall
+import by.budanitskaya.l.quilixtest.network.safeapicall.SafeApiCall
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

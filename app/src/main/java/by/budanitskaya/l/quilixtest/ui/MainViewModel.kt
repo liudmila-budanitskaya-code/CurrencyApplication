@@ -1,13 +1,13 @@
-package by.budanitskaya.l.quilixtest
+package by.budanitskaya.l.quilixtest.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.budanitskaya.l.quilixtest.datasource.CurrencyDataSource
-import by.budanitskaya.l.quilixtest.network.ResponseStatus
+import by.budanitskaya.l.quilixtest.network.safeapicall.ResponseStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
+import by.budanitskaya.l.quilixtest.network.models.ResponseData
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
