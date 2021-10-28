@@ -1,4 +1,4 @@
-package by.budanitskaya.l.quilixtest.ui.settings
+package by.budanitskaya.l.quilixtest.presentation.ui.settings
 
 import android.os.Bundle
 import android.view.*
@@ -7,8 +7,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentSettingsBinding
+import by.budanitskaya.l.quilixtest.presentation.ui.settings.adapters.SettingsAdapter
+import by.budanitskaya.l.quilixtest.repository.SettingsRepository
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
+
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
 
     private lateinit var binding: FragmentSettingsBinding
 
@@ -30,6 +39,16 @@ class SettingsFragment : Fragment() {
 
         setHasOptionsMenu(true)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpRecyclerView()
+    }
+
+    private fun setUpRecyclerView() {
+        val adapter = SettingsAdapter(settingsRepository, settingsRepository.getSettingsInfo())
+        binding.recyclerSettingsInfoList.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

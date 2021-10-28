@@ -9,7 +9,7 @@
 
         <variable
             name="viewmodel"
-            type="by.budanitskaya.l.quilixtest.ui.currencyinfo.CurrencyInfoViewModel" />
+            type="by.budanitskaya.l.quilixtest.presentation.ui.currencyinfo.CurrencyInfoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

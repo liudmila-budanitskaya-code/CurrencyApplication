@@ -3,4 +3,33 @@
     <string name="currency_info_screen_settings">Settings</string>
     <string name="settings_screen_ok">Done</string>
     <string name="currency_info_error_message">Не удалось получить курсы валют</string>
+
+    <string-array name="currency_char_codes">
+        <item>AMD, 1000 армянских драмов</item>
+        <item>BGN, 1 болгарский лев</item>
+        <item>UAH, 100 гривен</item>
+        <item>DKK, 10 датских крон</item>
+        <item>USD, 1 доллар США</item>
+        <item>EUR, 1 евро</item>
+        <item>PLN, 10 злотых</item>
+        <item>JPY, 100 йен</item>
+        <item>IRR, 100000 иранских риалов</item>
+        <item>ISK, 100 исландских крон</item>
+        <item>CAD, 1 канадский доллар</item>
+        <item>CNY, 10 китайских юаней</item>
+        <item>KWD, 1 кувейтский динар</item>
+        <item>MDL, 10 молдавских леев</item>
+        <item>NZD, 1 новозеландский доллар</item>
+        <item>NOK, 10 норвежских крон</item>
+        <item>RUB, 100 российских рублей</item>
+        <item>XDR, 1 СДР (Специальные права заимствования)</item>
+        <item>SGD, 1 сингапурский доллар</item>
+        <item>KGS, 100 сомов</item>
+        <item>KZT, 1000 тенге</item>
+        <item>TRY, 10 турецких лир</item>
+        <item>GBP, 1 фунт стерлингов</item>
+        <item>CZK, 100 чешских крон</item>
+        <item>SEK, 10 шведских крон</item>
+        <item>CHF, 1 швейцарский франк</item>
+    </string-array>
 </resources>

@@ -1,4 +1,4 @@
-package by.budanitskaya.l.quilixtest.ui.currencyinfo
+package by.budanitskaya.l.quilixtest.presentation.ui.currencyinfo
 
 import android.os.Bundle
 import android.view.*
@@ -9,7 +9,8 @@ import androidx.navigation.fragment.findNavController
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentCurrencyInfoBinding
 import by.budanitskaya.l.quilixtest.network.models.CurrencyInfo
-import by.budanitskaya.l.quilixtest.ui.currencyinfo.adapters.CurrencyInfoAdapter
+import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationModel
+import by.budanitskaya.l.quilixtest.presentation.ui.currencyinfo.adapters.CurrencyInfoAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,7 +50,7 @@ class CurrencyInfoFragment : Fragment() {
         initObservers()
     }
 
-    private fun setUpRecyclerView(list: List<CurrencyInfo>) {
+    private fun setUpRecyclerView(list: List<CurrencyPresentationModel>) {
         val adapter = CurrencyInfoAdapter(list)
         binding.recyclerCurrencyInfoList.adapter = adapter
         binding.recyclerCurrencyInfoList.visibility = View.VISIBLE

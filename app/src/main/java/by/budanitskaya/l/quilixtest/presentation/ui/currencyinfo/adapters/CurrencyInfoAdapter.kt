@@ -1,15 +1,15 @@
-package by.budanitskaya.l.quilixtest.ui.currencyinfo.adapters
+package by.budanitskaya.l.quilixtest.presentation.ui.currencyinfo.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import by.budanitskaya.l.quilixtest.databinding.CurrencyInfoItemBinding
 import by.budanitskaya.l.quilixtest.databinding.HeaderItemBinding
-import by.budanitskaya.l.quilixtest.network.models.CurrencyInfo
+import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationModel
 
 class CurrencyInfoAdapter(
 
-    private val currencyData: List<CurrencyInfo>
+    private val currencyData: List<CurrencyPresentationModel>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -42,20 +42,23 @@ class CurrencyInfoAdapter(
 
     class CurrencyInfoViewHolder(
         private val binding: CurrencyInfoItemBinding,
-        private val currencyData: List<CurrencyInfo>
+        private val currencyData: List<CurrencyPresentationModel>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
             binding.textViewCharCode.text = currencyData[adapterPosition].charCode
-            val scale = currencyData[adapterPosition].scale
+            val charCode = currencyData[adapterPosition].charCode
+            binding.textViewCharCode.text = charCode
 
             val name = currencyData[adapterPosition].name
-            binding.textViewNumCodeName.text = "$scale\n$name"
-            val yesterDayCurrencyInfo = currencyData[adapterPosition].rate
-            binding.textViewYesterdayRate.text = yesterDayCurrencyInfo.toString()
-            binding.textViewTodayRate.text = yesterDayCurrencyInfo.toString()
+            binding.textViewNumCodeName.text = "$name"
+            val currentCurrencyInfo = currencyData[adapterPosition].currentDayRate
+            binding.textViewYesterdayRate.text = currentCurrencyInfo.toString()
+            val tomorrowCurrencyInfo = currencyData[adapterPosition].currentDayRate
+            binding.textViewTodayRate.text = tomorrowCurrencyInfo.toString()
         }
     }
+
 
     class HeaderViewHolder(
         binding: HeaderItemBinding,
@@ -65,5 +68,4 @@ class CurrencyInfoAdapter(
             // do nothing
         }
     }
-
 }

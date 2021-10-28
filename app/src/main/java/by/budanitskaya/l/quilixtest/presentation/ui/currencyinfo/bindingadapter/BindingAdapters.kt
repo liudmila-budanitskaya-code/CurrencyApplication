@@ -1,4 +1,4 @@
-package by.budanitskaya.l.quilixtest.ui.currencyinfo.bindingadapter
+package by.budanitskaya.l.quilixtest.presentation.ui.currencyinfo.bindingadapter
 
 import android.view.View
 import android.widget.TextView

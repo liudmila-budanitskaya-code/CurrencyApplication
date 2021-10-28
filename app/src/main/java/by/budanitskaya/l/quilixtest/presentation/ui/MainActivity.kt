@@ -1,7 +1,8 @@
-package by.budanitskaya.l.quilixtest.ui
+package by.budanitskaya.l.quilixtest.presentation.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -12,6 +13,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(
+            MainViewModel::class.java
+        )
+    }
+
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val navController by lazy {
         this.findNavController(R.id.nav_host_fragment_activity_main)
@@ -20,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewModel.initializeApp()
         NavigationUI.setupActionBarWithNavController(this, navController)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         appBarConfiguration = AppBarConfiguration(
