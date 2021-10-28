@@ -12,10 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : ViewModel() {
-
-    @Inject
-    lateinit var currencyDataSource: CurrencyDataSource
+class MainViewModel @Inject constructor(var currencyDataSource: CurrencyDataSource) : ViewModel() {
 
     private var _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
@@ -28,7 +25,6 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
     private fun fetchData() {
         viewModelScope.launch {
-            delay(3000)
             data = currencyDataSource.fetchData("10/28/2021")
             when (data) {
                 is ResponseStatus.Success -> {

@@ -12,18 +12,22 @@ class SafeApiCall {
             try {
                 ResponseStatus.Success(apiCall.invoke())
             } catch (throwable: Throwable) {
-                when (throwable) {
-                    is HttpException -> {
-                        ResponseStatus.Failure(
-                            false,
-                            throwable.code(),
-                            throwable.response()?.errorBody()
-                        )
-                    }
-                    else -> {
-                        ResponseStatus.Failure(true, null, null)
-                    }
-                }
+                handleError(throwable)
+            }
+        }
+    }
+
+    private fun handleError(throwable: Throwable): ResponseStatus.Failure {
+        return when (throwable) {
+            is HttpException -> {
+                ResponseStatus.Failure(
+                    false,
+                    throwable.code(),
+                    throwable.response()?.errorBody()
+                )
+            }
+            else -> {
+                ResponseStatus.Failure(true, null, null)
             }
         }
     }
