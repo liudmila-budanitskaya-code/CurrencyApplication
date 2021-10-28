@@ -1,6 +1,7 @@
 package by.budanitskaya.l.quilixtest.presentation.ui.settings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -47,8 +48,11 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() {
-        val adapter = SettingsAdapter(settingsRepository, settingsRepository.getSettingsInfo())
+        val list = settingsRepository.getSettingsInfo()
+        Log.d("setUpRecyclerView", "setUpRecyclerView: ${list}")
+        val adapter = SettingsAdapter(settingsRepository, list)
         binding.recyclerSettingsInfoList.adapter = adapter
+        binding.recyclerSettingsInfoList.visibility = View.VISIBLE
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

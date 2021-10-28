@@ -48,10 +48,10 @@
 
         <ImageView
             android:id="@+id/image_view_drag_n_drop"
-            android:layout_width="@dimen/dimen_120"
+            android:layout_width="@dimen/dimen_80"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:maxWidth="@dimen/dimen_120"
+            android:maxWidth="@dimen/dimen_80"
             android:src="@drawable/ic_drag_n_drop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

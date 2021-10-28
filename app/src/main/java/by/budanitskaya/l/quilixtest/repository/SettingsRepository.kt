@@ -19,7 +19,7 @@ class SettingsRepository @Inject constructor(
             setBoolean(KEY_APP_INITIALISED, true)
             context.resources.getStringArray(R.array.currency_char_codes).forEach {
                 val item = it.split(", ")[0]
-                if (item != "USD" || item != "RUB" || item != "EUR") {
+                if (item != "USD" && item != "RUB" && item != "EUR") {
                     setBoolean(item, false)
                 } else {
                     setBoolean(item, true)
@@ -42,7 +42,7 @@ class SettingsRepository @Inject constructor(
     fun getSettingsInfo(): List<SettingsModel> {
         val settingsList = mutableListOf<SettingsModel>()
         val charCodeList = context.resources.getStringArray(R.array.currency_char_codes)
-        charCodeList.map {
+        charCodeList.forEach {
             val charCode = it.split(", ")[0]
             val name = it.split(", ")[1]
             val isOn = getBoolean(charCode)

@@ -36,23 +36,22 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_yesterday_rate"
-            android:layout_width="@dimen/dimen_120"
+            android:layout_width="@dimen/dimen_80"
             android:layout_height="wrap_content"
             android:maxWidth="@dimen/dimen_200"
-            android:gravity="start"
             tools:text="TextView"
+            android:gravity="start"
             android:layout_marginEnd="@dimen/dimen_10"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/text_view_today_rate"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_today_rate"
-            android:layout_width="@dimen/dimen_120"
+            android:layout_width="@dimen/dimen_80"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:maxWidth="@dimen/dimen_120"
+            android:maxWidth="@dimen/dimen_80"
             tools:text="TextView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

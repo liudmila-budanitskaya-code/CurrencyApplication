@@ -1,5 +1,6 @@
 package by.budanitskaya.l.quilixtest.presentation.ui.settings.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -55,6 +56,8 @@ class SettingsAdapter(
             binding.switchSettings.setOnCheckedChangeListener { buttonView, isChecked ->
                 settingsRepository.setBoolean(settingsData[adapterPosition].charCode, isChecked)
             }
+            Log.d("bind", "bind: ${settingsData[adapterPosition].isOn}")
+            binding.switchSettings.isChecked = settingsData[adapterPosition].isOn
         }
     }
 
