@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/currencyInfoFragment">
+
+    <fragment
+        android:id="@+id/currencyInfoFragment"
+        android:name="by.budanitskaya.l.quilixtest.ui.currencyinfo.CurrencyInfoFragment"
+        android:label="fragment_currency_info"
+        tools:layout="@layout/fragment_currency_info" >
+        <action
+            android:id="@+id/action_currencyInfoFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="by.budanitskaya.l.quilixtest.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
