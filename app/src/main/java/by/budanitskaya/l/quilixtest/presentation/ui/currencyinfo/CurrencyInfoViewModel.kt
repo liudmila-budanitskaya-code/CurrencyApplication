@@ -36,6 +36,9 @@ class CurrencyInfoViewModel @Inject constructor(
     private val _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _isError
 
+    private val _dates = MutableLiveData<Pair<String, String>>()
+    val dates: LiveData<Pair<String, String>> = _dates
+
     lateinit var currencyInitialList: List<CurrencyPresentationModel>
 
     init {
@@ -54,7 +57,10 @@ class CurrencyInfoViewModel @Inject constructor(
                 // TODO yesterdays flow
                 val yesTerDayData =
                     fetchSpecificDateData(getCurrentFormatDate(getCurrentDatePlusDays(-1L)))
-
+                _dates.value = Pair(
+                    getCurrentFormatDate(getCurrentDatePlusDays(-1L)),
+                    getCurrentFormatDate(getCurrentDatePlusDays(0L))
+                )
                 if (yesTerDayData is ResponseStatus.Success<ResponseData>) {
                     _isLoading.value = false
                     currencyInitialList =
@@ -72,12 +78,17 @@ class CurrencyInfoViewModel @Inject constructor(
                 _isLoading.value = false
             }
             if (nextDayData is ResponseStatus.Success<ResponseData> && currentDayData is ResponseStatus.Success<ResponseData>) {
+                _dates.value = Pair(
+                    getCurrentFormatDate(getCurrentDatePlusDays(-1L)),
+                    getCurrentFormatDate(getCurrentDatePlusDays(0L))
+                )
                 val currentDayList =
                     currentDayData.value.listCurrencyInfo ?: emptyList()
                 val nextDayList = nextDayData.value.listCurrencyInfo ?: emptyList()
                 _isLoading.value = false
                 currencyInitialList = getDisplayedList(currentDayList, nextDayList)
                 _currencyDataList.value = applyPrefsToCurrencyList(currencyInitialList)
+
             }
         }
     }
@@ -108,4 +119,6 @@ class CurrencyInfoViewModel @Inject constructor(
     override fun onPrefsChanged() {
         _currencyDataList.value = applyPrefsToCurrencyList(currencyInitialList)
     }
+
+    fun getDates() = _dates.value
 }

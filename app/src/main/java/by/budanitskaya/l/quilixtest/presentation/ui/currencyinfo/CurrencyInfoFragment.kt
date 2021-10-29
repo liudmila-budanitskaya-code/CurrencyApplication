@@ -49,15 +49,18 @@ class CurrencyInfoFragment : Fragment() {
         initObservers()
     }
 
-    private fun setUpRecyclerView(list: List<CurrencyPresentationModel>) {
-        val adapter = CurrencyInfoAdapter(list)
+    private fun setUpRecyclerView(
+        list: List<CurrencyPresentationModel>,
+        dates: Pair<String, String>
+    ) {
+        val adapter = CurrencyInfoAdapter(dates, list)
         binding.recyclerCurrencyInfoList.adapter = adapter
         binding.recyclerCurrencyInfoList.visibility = View.VISIBLE
     }
 
     private fun initObservers() {
         viewModel.currencyDataList.observe(viewLifecycleOwner, {
-            setUpRecyclerView(it)
+            setUpRecyclerView(it, viewModel.getDates() ?: Pair("", ""))
         })
 
         viewModel.isMenuVisible.observe(viewLifecycleOwner, {

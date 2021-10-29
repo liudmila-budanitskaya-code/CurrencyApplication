@@ -8,7 +8,7 @@ import by.budanitskaya.l.quilixtest.databinding.HeaderItemBinding
 import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationModel
 
 class CurrencyInfoAdapter(
-
+    private val dates: Pair<String, String>,
     private val currencyData: List<CurrencyPresentationModel>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -17,7 +17,7 @@ class CurrencyInfoAdapter(
             0 -> {
                 val binding = HeaderItemBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
-                HeaderViewHolder(binding)
+                HeaderViewHolder(binding, dates)
             }
             else -> {
                 val binding = CurrencyInfoItemBinding
@@ -61,11 +61,13 @@ class CurrencyInfoAdapter(
 
 
     class HeaderViewHolder(
-        binding: HeaderItemBinding,
+        val binding: HeaderItemBinding,
+        private val dates: Pair<String, String>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
-            // do nothing
+            binding.textViewTodayDate.text = dates.second
+            binding.textViewYesterdayDate.text = dates.first
         }
     }
 }
