@@ -1,8 +1,9 @@
 package by.budanitskaya.l.quilixtest.presentation.ui.settings.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import by.budanitskaya.l.quilixtest.databinding.HeaderItemBinding
 import by.budanitskaya.l.quilixtest.databinding.SettingsItemBinding
@@ -11,8 +12,7 @@ import by.budanitskaya.l.quilixtest.data.repository.SettingsRepository
 
 
 class SettingsAdapter(
-    private val settingsRepository: SettingsRepository,
-    private val settingsData: List<SettingsModel>
+    private val settingsRepository: SettingsRepository
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -26,7 +26,7 @@ class SettingsAdapter(
             else -> {
                 val binding = SettingsItemBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
-                SettingsViewHolder(binding, settingsData, settingsRepository)
+                SettingsViewHolder(binding, settingsRepository)
             }
         }
     }
@@ -35,30 +35,40 @@ class SettingsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
+        val item= differ.currentList[position]
+
         when (holder) {
-            is SettingsViewHolder -> holder.bind()
+            is SettingsViewHolder -> holder.bind(item)
             is SettingHeaderViewHolder -> holder.bind()
         }
+
     }
 
-    override fun getItemCount(): Int = settingsData.size
+    override fun getItemCount(): Int = differ.currentList.size
 
+    private var onItemClickListener: ((SettingsModel) -> Unit)? = null
 
-    class SettingsViewHolder(
+    inner class SettingsViewHolder(
         private val binding: SettingsItemBinding,
-        private val settingsData: List<SettingsModel>,
         private val settingsRepository: SettingsRepository
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind() {
-            binding.textViewCurrencyName.text = settingsData[adapterPosition].name
-            binding.textViewChars.text = settingsData[adapterPosition].charCode
+        fun bind(item: SettingsModel) {
+
+            binding.root.setOnClickListener {
+                onItemClickListener?.let {
+                    it(item)
+
+                }
+            }
+            binding.textViewCurrencyName.text = item.name
+            binding.textViewChars.text = item.charCode
 
             binding.switchSettings.setOnCheckedChangeListener { buttonView, isChecked ->
-                settingsRepository.tempSave(settingsData[adapterPosition].charCode, isChecked)
+                settingsRepository.tempSave(item.charCode, isChecked)
             }
             binding.switchSettings.isChecked =
-                settingsRepository.tempApplyTemporaryChanges(settingsData[adapterPosition]).isOn
+                settingsRepository.tempApplyTemporaryChanges(item).isOn
         }
     }
 
@@ -69,5 +79,36 @@ class SettingsAdapter(
         fun bind() {
             // do nothing
         }
+    }
+
+    private val differCallBack  = object : DiffUtil.ItemCallback<SettingsModel>()
+    {
+
+        override fun areItemsTheSame(oldItem: SettingsModel, newItem: SettingsModel): Boolean {
+            return  oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: SettingsModel, newItem: SettingsModel): Boolean {
+            return oldItem == newItem
+        }
+
+
+    }
+
+    val differ = AsyncListDiffer(this, differCallBack)
+
+    fun moveItem(from: Int, to: Int) {
+
+        val list = differ.currentList.toMutableList()
+        val fromLocation = list[from]
+        list.removeAt(from)
+        if (to < from) {
+            list.add(to + 1 , fromLocation)
+        } else {
+            list.add(to - 1, fromLocation)
+        }
+        differ.submitList(list)
+
+
     }
 }
