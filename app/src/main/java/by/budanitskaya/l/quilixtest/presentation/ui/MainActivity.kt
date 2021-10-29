@@ -8,6 +8,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import by.budanitskaya.l.quilixtest.R
+import by.budanitskaya.l.quilixtest.utils.getCurrentDatePlusDays
+import by.budanitskaya.l.quilixtest.utils.getCurrentFormatDate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -11,6 +11,8 @@ import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationMode
 import by.budanitskaya.l.quilixtest.data.repository.CurrencyRepository
 import by.budanitskaya.l.quilixtest.data.repository.PrefsInterface
 import by.budanitskaya.l.quilixtest.data.repository.SettingsRepository
+import by.budanitskaya.l.quilixtest.utils.getCurrentDatePlusDays
+import by.budanitskaya.l.quilixtest.utils.getCurrentFormatDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -44,13 +46,32 @@ class CurrencyInfoViewModel @Inject constructor(
     private fun fetchData() {
         _isLoading.value = true
         viewModelScope.launch {
-            val currentDayData = fetchSpecificDateData("10/28/2021")
-            val nextDayData = fetchSpecificDateData("10/29/2021")
-            if (currentDayData !is ResponseStatus.Success<ResponseData> || nextDayData !is ResponseStatus.Success<ResponseData>) {
+            val currentDayData =
+                fetchSpecificDateData(getCurrentFormatDate(getCurrentDatePlusDays(0L)))
+            val nextDayData =
+                fetchSpecificDateData(getCurrentFormatDate(getCurrentDatePlusDays(1L)))
+            if (nextDayData !is ResponseStatus.Success<ResponseData> && currentDayData is ResponseStatus.Success<ResponseData>) {
+                // TODO yesterdays flow
+                val yesTerDayData =
+                    fetchSpecificDateData(getCurrentFormatDate(getCurrentDatePlusDays(-1L)))
+
+                if (yesTerDayData is ResponseStatus.Success<ResponseData>) {
+                    _isLoading.value = false
+                    currencyInitialList =
+                        getDisplayedList(
+                            yesTerDayData.value.listCurrencyInfo ?: emptyList(),
+                            currentDayData.value.listCurrencyInfo ?: emptyList()
+                        )
+                    _currencyDataList.value = applyPrefsToCurrencyList(currencyInitialList)
+                }
+            }
+
+            if (currentDayData !is ResponseStatus.Success<ResponseData> && nextDayData !is ResponseStatus.Success<ResponseData>) {
                 _isError.value = true
                 _isMenuVisible.value = Unit
                 _isLoading.value = false
-            } else {
+            }
+            if (nextDayData is ResponseStatus.Success<ResponseData> && currentDayData is ResponseStatus.Success<ResponseData>) {
                 val currentDayList =
                     currentDayData.value.listCurrencyInfo ?: emptyList()
                 val nextDayList = nextDayData.value.listCurrencyInfo ?: emptyList()
@@ -74,7 +95,7 @@ class CurrencyInfoViewModel @Inject constructor(
     ): List<CurrencyPresentationModel> {
         return currentDayList.zip(nextDayList) { currentDayData, nextDayData ->
             CurrencyPresentationModel(
-                currentDayData.charCode,
+                currentDayData.charCode ?: "123",
                 "${currentDayData.scale} ${currentDayData.name}",
                 currentDayData.rate,
                 nextDayData.rate

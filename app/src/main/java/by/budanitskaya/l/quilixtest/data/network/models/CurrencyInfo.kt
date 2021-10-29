@@ -7,21 +7,21 @@ import org.simpleframework.xml.Root
 data class CurrencyInfo @JvmOverloads constructor(
     @field:Element(name = "NumCode")
     @param:Element(name = "NumCode")
-    var numCode: Int? = null,
+    var numCode: Int?,
 
     @field:Element(name = "CharCode")
     @param:Element(name = "CharCode")
-    var charCode: String,
+    var charCode: String?,
 
     @field:Element(name = "Scale")
     @param:Element(name = "Scale")
-    var scale: Int? = null,
+    var scale: Int?,
 
     @field:Element(name = "Name")
     @param:Element(name = "Name")
-    var name: String? = null,
+    var name: String?,
 
     @field:Element(name = "Rate")
     @param:Element(name = "Rate")
-    var rate: Float? = null,
+    var rate: Float?
 )

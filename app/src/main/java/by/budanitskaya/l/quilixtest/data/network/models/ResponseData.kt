@@ -7,6 +7,5 @@ import org.simpleframework.xml.Root
 data class ResponseData @JvmOverloads constructor(
     @field:ElementList(name = "Currency", inline = true, required = false)
     @param:ElementList(name = "Currency", inline = true, required = false)
-    var listCurrencyInfo: List<CurrencyInfo>? =
-        null
+    var listCurrencyInfo: List<CurrencyInfo>?
 )

@@ -17,6 +17,10 @@ class SettingsRepository @Inject constructor(
     private val tempChangesHashMap = hashMapOf<String, Boolean>()
     lateinit var prefsInterface: PrefsInterface
 
+    fun clearTemporaryStorage(){
+        tempChangesHashMap.clear()
+    }
+
     fun initializeApp() {
         if (!sharedPreferences.contains(KEY_APP_INITIALISED)) {
             setBoolean(KEY_APP_INITIALISED, true)

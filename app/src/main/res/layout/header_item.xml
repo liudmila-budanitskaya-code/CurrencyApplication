@@ -21,7 +21,6 @@
             android:background="@android:color/transparent"
             android:gravity="start"
             android:maxWidth="@dimen/dimen_200"
-            android:text="TextView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/text_view_today_date"
             app:layout_constraintTop_toTopOf="parent" />
@@ -35,8 +34,7 @@
             android:maxWidth="@dimen/dimen_80"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="TextView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

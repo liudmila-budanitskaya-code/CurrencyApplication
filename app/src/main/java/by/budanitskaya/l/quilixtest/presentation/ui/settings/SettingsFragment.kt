@@ -69,4 +69,9 @@ class SettingsFragment : Fragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onStop() {
+        super.onStop()
+        settingsRepository.clearTemporaryStorage()
+    }
 }
