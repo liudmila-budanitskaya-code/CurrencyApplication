@@ -1,4 +1,4 @@
-package by.budanitskaya.l.quilixtest.network.models
+package by.budanitskaya.l.quilixtest.data.network.models
 
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root

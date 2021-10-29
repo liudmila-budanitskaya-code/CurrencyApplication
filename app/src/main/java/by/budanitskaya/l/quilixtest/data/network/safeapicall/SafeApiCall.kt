@@ -1,4 +1,4 @@
-package by.budanitskaya.l.quilixtest.network.safeapicall
+package by.budanitskaya.l.quilixtest.data.network.safeapicall
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

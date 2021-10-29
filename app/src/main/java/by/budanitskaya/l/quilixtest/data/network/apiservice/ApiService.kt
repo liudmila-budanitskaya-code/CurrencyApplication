@@ -1,7 +1,7 @@
-package by.budanitskaya.l.quilixtest.network.apiservice
+package by.budanitskaya.l.quilixtest.data.network.apiservice
 
 
-import by.budanitskaya.l.quilixtest.network.models.ResponseData
+import by.budanitskaya.l.quilixtest.data.network.models.ResponseData
 import retrofit2.http.GET
 import retrofit2.http.Query
 

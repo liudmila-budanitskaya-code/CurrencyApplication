@@ -1,4 +1,4 @@
-package by.budanitskaya.l.quilixtest.repository
+package by.budanitskaya.l.quilixtest.data.repository
 
 import android.content.Context
 import android.content.SharedPreferences

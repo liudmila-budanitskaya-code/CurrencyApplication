@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentCurrencyInfoBinding
-import by.budanitskaya.l.quilixtest.network.models.CurrencyInfo
 import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationModel
 import by.budanitskaya.l.quilixtest.presentation.ui.currencyinfo.adapters.CurrencyInfoAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,6 +58,10 @@ class CurrencyInfoFragment : Fragment() {
     private fun initObservers() {
         viewModel.currencyDataList.observe(viewLifecycleOwner, {
             setUpRecyclerView(it)
+        })
+
+        viewModel.isMenuVisible.observe(viewLifecycleOwner, {
+            setHasOptionsMenu(false)
         })
     }
 

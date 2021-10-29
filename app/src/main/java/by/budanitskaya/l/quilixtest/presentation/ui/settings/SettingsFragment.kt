@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentSettingsBinding
 import by.budanitskaya.l.quilixtest.presentation.ui.settings.adapters.SettingsAdapter
-import by.budanitskaya.l.quilixtest.repository.SettingsRepository
+import by.budanitskaya.l.quilixtest.data.repository.SettingsRepository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
