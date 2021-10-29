@@ -10,7 +10,6 @@ import javax.inject.Singleton
 @Singleton
 class CurrencyDataSource @Inject constructor(private val apiService: ApiService) {
 
-
     @Inject
     lateinit var safeApiCall: SafeApiCall
 
