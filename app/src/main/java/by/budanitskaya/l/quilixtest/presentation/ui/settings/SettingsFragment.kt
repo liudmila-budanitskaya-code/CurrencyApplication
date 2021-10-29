@@ -63,7 +63,7 @@ class SettingsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.option_ok -> {
-                // TODO
+                settingsRepository.saveTemporaryChanges()
                 true
             }
             else -> super.onOptionsItemSelected(item)

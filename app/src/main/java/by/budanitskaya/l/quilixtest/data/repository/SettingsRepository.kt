@@ -14,6 +14,8 @@ class SettingsRepository @Inject constructor(
     var sharedPreferences: SharedPreferences
 ) {
 
+    private val tempChangesHashMap = hashMapOf<String, Boolean>()
+
     fun initializeApp() {
         if (!sharedPreferences.contains(KEY_APP_INITIALISED)) {
             setBoolean(KEY_APP_INITIALISED, true)
@@ -49,6 +51,26 @@ class SettingsRepository @Inject constructor(
             settingsList.add(SettingsModel(charCode, name, isOn))
         }
         return settingsList
+    }
+
+    fun tempSave(charCode: String, isActive: Boolean) {
+        tempChangesHashMap[charCode] = isActive
+    }
+
+    fun saveTemporaryChanges() {
+        for ((key, value) in tempChangesHashMap) {
+            setBoolean(key, value)
+        }
+    }
+
+    fun tempApplyTemporaryChanges(model: SettingsModel): SettingsModel {
+        for ((key, value) in tempChangesHashMap) {
+            if (key == model.charCode) {
+                model.isOn = value
+                return model
+            }
+        }
+        return model
     }
 
     companion object {

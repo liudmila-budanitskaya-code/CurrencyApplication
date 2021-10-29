@@ -53,11 +53,12 @@ class SettingsAdapter(
         fun bind() {
             binding.textViewCurrencyName.text = settingsData[adapterPosition].name
             binding.textViewChars.text = settingsData[adapterPosition].charCode
+
             binding.switchSettings.setOnCheckedChangeListener { buttonView, isChecked ->
-                settingsRepository.setBoolean(settingsData[adapterPosition].charCode, isChecked)
+                settingsRepository.tempSave(settingsData[adapterPosition].charCode, isChecked)
             }
-            Log.d("bind", "bind: ${settingsData[adapterPosition].isOn}")
-            binding.switchSettings.isChecked = settingsData[adapterPosition].isOn
+            binding.switchSettings.isChecked =
+                settingsRepository.tempApplyTemporaryChanges(settingsData[adapterPosition]).isOn
         }
     }
 
