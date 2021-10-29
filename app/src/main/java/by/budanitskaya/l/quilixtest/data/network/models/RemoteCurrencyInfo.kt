@@ -4,7 +4,7 @@ import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
 @Root(name = "Currency", strict = false)
-data class CurrencyInfo @JvmOverloads constructor(
+data class RemoteCurrencyInfo @JvmOverloads constructor(
     @field:Element(name = "NumCode")
     @param:Element(name = "NumCode")
     var numCode: Int?,

@@ -9,6 +9,4 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(val settingsRepository: SettingsRepository) : ViewModel() {
 
     fun initializeApp() = settingsRepository.initializeApp()
-
-
 }

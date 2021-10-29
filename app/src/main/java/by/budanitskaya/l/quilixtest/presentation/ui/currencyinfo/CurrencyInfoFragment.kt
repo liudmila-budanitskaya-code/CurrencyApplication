@@ -38,7 +38,6 @@ class CurrencyInfoFragment : Fragment() {
         )
         binding.lifecycleOwner = this
         binding.viewmodel = viewModel
-
         setHasOptionsMenu(true)
 
         return binding.root
@@ -81,5 +80,10 @@ class CurrencyInfoFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModelStore.clear()
     }
 }

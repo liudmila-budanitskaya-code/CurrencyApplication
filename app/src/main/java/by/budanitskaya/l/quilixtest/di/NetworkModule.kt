@@ -2,7 +2,7 @@ package by.budanitskaya.l.quilixtest.di
 
 import by.budanitskaya.l.quilixtest.data.network.apiservice.ApiService
 import by.budanitskaya.l.quilixtest.BuildConfig
-import by.budanitskaya.l.quilixtest.data.network.safeapicall.SafeApiCall
+import by.budanitskaya.l.quilixtest.data.network.responsewrapper.SafeApiCall
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

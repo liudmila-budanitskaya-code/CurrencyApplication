@@ -17,7 +17,7 @@ class CurrencyInfoAdapter(
             0 -> {
                 val binding = HeaderItemBinding
                     .inflate(LayoutInflater.from(parent.context), parent, false)
-                HeaderViewHolder(binding, dates)
+                CurrencyHeaderViewHolder(binding, dates)
             }
             else -> {
                 val binding = CurrencyInfoItemBinding
@@ -33,12 +33,11 @@ class CurrencyInfoAdapter(
 
         when (holder) {
             is CurrencyInfoViewHolder -> holder.bind()
-            is HeaderViewHolder -> holder.bind()
+            is CurrencyHeaderViewHolder -> holder.bind()
         }
     }
 
-    override fun getItemCount(): Int = currencyData.size+1
-
+    override fun getItemCount(): Int = currencyData.size + 1
 
     class CurrencyInfoViewHolder(
         private val binding: CurrencyInfoItemBinding,
@@ -46,28 +45,30 @@ class CurrencyInfoAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
-            binding.textViewCharCode.text = currencyData[adapterPosition-1].charCode
-            val charCode = currencyData[adapterPosition-1].charCode
-            binding.textViewCharCode.text = charCode
-
-            val name = currencyData[adapterPosition-1].name
-            binding.textViewNumCodeName.text = "$name"
-            val currentCurrencyInfo = currencyData[adapterPosition-1].currentDayRate
-            binding.textViewYesterdayRate.text = currentCurrencyInfo.toString()
-            val tomorrowCurrencyInfo = currencyData[adapterPosition-1].nextDayRate
-            binding.textViewTodayRate.text = tomorrowCurrencyInfo.toString()
+            with(binding) {
+                textViewCharCode.text = currencyData[adapterPosition - 1].charCode
+                val charCode = currencyData[adapterPosition - 1].charCode
+                textViewCharCode.text = charCode
+                val name = currencyData[adapterPosition - 1].name
+                textViewNumCodeName.text = "$name"
+                val currentCurrencyInfo = currencyData[adapterPosition - 1].currentDayRate
+                textViewYesterdayRate.text = currentCurrencyInfo.toString()
+                val tomorrowCurrencyInfo = currencyData[adapterPosition - 1].nextDayRate
+                textViewTodayRate.text = tomorrowCurrencyInfo.toString()
+            }
         }
     }
 
-
-    class HeaderViewHolder(
-        val binding: HeaderItemBinding,
+    class CurrencyHeaderViewHolder(
+        private val binding: HeaderItemBinding,
         private val dates: Pair<String, String>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
-            binding.textViewTodayDate.text = dates.second
-            binding.textViewYesterdayDate.text = dates.first
+            with(binding){
+                textViewTodayDate.text = dates.second
+                textViewYesterdayDate.text = dates.first
+            }
         }
     }
 }

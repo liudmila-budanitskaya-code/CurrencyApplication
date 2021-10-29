@@ -3,6 +3,7 @@ package by.budanitskaya.l.quilixtest.data.repository
 import android.content.Context
 import android.content.SharedPreferences
 import by.budanitskaya.l.quilixtest.R
+import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationModel
 import by.budanitskaya.l.quilixtest.presentation.models.SettingsModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -11,11 +12,11 @@ import javax.inject.Singleton
 @Singleton
 class SettingsRepository @Inject constructor(
     @ApplicationContext val context: Context,
-    var sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences
 ) {
 
     private val tempChangesHashMap = hashMapOf<String, Boolean>()
-    lateinit var prefsInterface: PrefsInterface
+    lateinit var prefsCallback: PrefsCallback
 
     fun clearTemporaryStorage(){
         tempChangesHashMap.clear()
@@ -26,7 +27,7 @@ class SettingsRepository @Inject constructor(
             setBoolean(KEY_APP_INITIALISED, true)
             context.resources.getStringArray(R.array.currency_char_codes).forEach {
                 val item = it.split(", ")[0]
-                if (item != "USD" && item != "RUB" && item != "EUR") {
+                if (item != USD && item != RUB && item != EUR) {
                     setBoolean(item, false)
                 } else {
                     setBoolean(item, true)
@@ -40,12 +41,11 @@ class SettingsRepository @Inject constructor(
             putBoolean(key, value)
             apply()
         }
-        prefsInterface.onPrefsChanged()
+        prefsCallback.onPrefsChanged()
     }
 
     fun getBoolean(key: String): Boolean {
-        val bool = sharedPreferences.getBoolean(key, false)
-        return bool
+        return sharedPreferences.getBoolean(key, false)
     }
 
     fun getSettingsInfo(): List<SettingsModel> {
@@ -80,11 +80,20 @@ class SettingsRepository @Inject constructor(
         return model
     }
 
+    fun applyPrefsToCurrencyList(currencyInitialList: List<CurrencyPresentationModel>): List<CurrencyPresentationModel> {
+        val mutableCurrencyList = currencyInitialList.toMutableList()
+        mutableCurrencyList.removeIf { !getBoolean(it.charCode) }
+        return mutableCurrencyList.toList()
+    }
+
     companion object {
         const val KEY_APP_INITIALISED = "Is app initialized?"
+        const val USD = "USD"
+        const val EUR = "EUR"
+        const val RUB = "RUB"
     }
 }
 
-interface PrefsInterface{
+interface PrefsCallback{
     fun onPrefsChanged()
 }

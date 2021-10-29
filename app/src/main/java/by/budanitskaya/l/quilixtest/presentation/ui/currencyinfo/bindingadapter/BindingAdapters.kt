@@ -5,7 +5,6 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import by.budanitskaya.l.quilixtest.R
 
-
 @BindingAdapter("error_message")
 fun setErrorMessage(textView: TextView, isError: Boolean) {
     if (isError) {

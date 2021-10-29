@@ -1,7 +1,7 @@
 package by.budanitskaya.l.quilixtest
 
-import androidx.multidex.MultiDexApplication
+import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class CurrencyApplication : MultiDexApplication()
+class CurrencyApplication : Application()
