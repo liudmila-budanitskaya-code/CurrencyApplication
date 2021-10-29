@@ -35,7 +35,7 @@ class SettingsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val item= differ.currentList[position]
+        val item = differ.currentList[position]
 
         when (holder) {
             is SettingsViewHolder -> holder.bind(item)
@@ -81,11 +81,10 @@ class SettingsAdapter(
         }
     }
 
-    private val differCallBack  = object : DiffUtil.ItemCallback<SettingsModel>()
-    {
+    private val differCallBack = object : DiffUtil.ItemCallback<SettingsModel>() {
 
         override fun areItemsTheSame(oldItem: SettingsModel, newItem: SettingsModel): Boolean {
-            return  oldItem == newItem
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(oldItem: SettingsModel, newItem: SettingsModel): Boolean {
@@ -103,12 +102,10 @@ class SettingsAdapter(
         val fromLocation = list[from]
         list.removeAt(from)
         if (to < from) {
-            list.add(to + 1 , fromLocation)
+            list.add(to, fromLocation)
         } else {
-            list.add(to - 1, fromLocation)
+            list.add(to, fromLocation)
         }
         differ.submitList(list)
-
-
     }
 }
