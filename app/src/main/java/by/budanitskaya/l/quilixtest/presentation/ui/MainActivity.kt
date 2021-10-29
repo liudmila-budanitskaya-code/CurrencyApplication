@@ -2,50 +2,45 @@ package by.budanitskaya.l.quilixtest.presentation.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import by.budanitskaya.l.quilixtest.R
-import by.budanitskaya.l.quilixtest.presentation.ui.settings.adapters.SettingsAdapter
-import by.budanitskaya.l.quilixtest.utils.CustomItemTounchCallback
+import by.budanitskaya.l.quilixtest.data.repository.SettingsRepository
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    val itemTouchHelper by lazy {
-        val simpleItemTouchCallback = CustomItemTounchCallback()
-        ItemTouchHelper(simpleItemTouchCallback)
-    }
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
 
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(
-            MainViewModel::class.java
-        )
-    }
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
-    private val navController by lazy {
+    val navController by lazy {
         this.findNavController(R.id.nav_host_fragment_activity_main)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel.initializeApp()
+        settingsRepository.initializeApp()
+        setupToolBar()
+    }
+
+    private fun setupToolBar() {
         NavigationUI.setupActionBarWithNavController(this, navController)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.currencyInfoFragment, R.id.settingsFragment
-            )
-        )
         this.setupActionBarWithNavController(navController)
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            title = when (destination.id) {
+                R.id.currencyInfoFragment -> this.resources
+                    .getString(R.string.toolbar_fragment_currency_courses)
+                R.id.settingsFragment -> this.resources
+                    .getString(R.string.toolbar_currency_setting)
+                else -> this.resources
+                    .getString(R.string.default_title)
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

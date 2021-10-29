@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentCurrencyInfoBinding
 import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationModel
+import by.budanitskaya.l.quilixtest.presentation.ui.MainActivity
 import by.budanitskaya.l.quilixtest.presentation.ui.currencyinfo.adapters.CurrencyInfoAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,10 +23,6 @@ class CurrencyInfoFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentCurrencyInfoBinding
-
-    private val navController by lazy {
-        findNavController()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,15 +72,11 @@ class CurrencyInfoFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.option_settings -> {
-                navController.navigate(R.id.action_currencyInfoFragment_to_settingsFragment)
+                (activity as MainActivity).navController
+                    .navigate(R.id.action_currencyInfoFragment_to_settingsFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewModelStore.clear()
     }
 }

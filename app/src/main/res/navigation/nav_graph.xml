@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/currencyInfoFragment"
         android:name="by.budanitskaya.l.quilixtest.presentation.ui.currencyinfo.CurrencyInfoFragment"
-        android:label="fragment_currency_info"
         tools:layout="@layout/fragment_currency_info" >
         <action
             android:id="@+id/action_currencyInfoFragment_to_settingsFragment"
@@ -17,7 +16,6 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="by.budanitskaya.l.quilixtest.presentation.ui.settings.SettingsFragment"
-        android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settingsFragment_to_currencyInfoFragment"

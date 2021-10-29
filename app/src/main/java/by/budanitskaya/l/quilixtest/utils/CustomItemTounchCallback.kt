@@ -9,6 +9,11 @@ class CustomItemTounchCallback : ItemTouchHelper.SimpleCallback(
     0
 ) {
 
+    companion object {
+        const val ALPHA_TRANSPARENT = 0.5f
+        const val ALPHA_SOLID = 1.0f
+    }
+
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
@@ -28,16 +33,14 @@ class CustomItemTounchCallback : ItemTouchHelper.SimpleCallback(
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
-
         if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-            viewHolder?.itemView?.alpha = 0.5f
+            viewHolder?.itemView?.alpha = ALPHA_TRANSPARENT
         }
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
         super.clearView(recyclerView, viewHolder)
-
-        viewHolder.itemView.alpha = 1.0f
+        viewHolder.itemView.alpha = ALPHA_SOLID
     }
 }
 

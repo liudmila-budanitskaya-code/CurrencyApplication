@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--TextView-->
+
+    <style name="CurrencyCharsTextViewStyle">
+        <item name="android:maxWidth">@dimen/dimen_200</item>
+        <item name="android:textAppearance">@style/TextAppearance.Currency.Bold</item>
+    </style>
+
+    <style name="CurrencyDescriptionTextViewStyle">
+        <item name="android:maxWidth">@dimen/dimen_200</item>
+        <item name="android:textAppearance">@style/TextAppearance.Currency.Light</item>
+    </style>
+
+    <!--Switch-->
+
+    <style name="SwitchStyle">
+        <item name="android:gravity">start</item>
+        <item name="android:paddingStart">@dimen/dimen_40</item>
+        <item name="android:paddingTop">@dimen/dimen_10</item>
+        <item name="android:paddingEnd">@dimen/dimen_40</item>
+        <item name="android:paddingBottom">@dimen/dimen_10</item>
+    </style>
+
+    <style name="CurrencyCountTextViewStyle">
+        <item name="android:gravity">start</item>
+        <item name="android:textAppearance">@style/TextAppearance.Currency.Normal</item>
+    </style>
+
+    <!--TextAppearance-->
+
+    <style name="TextAppearance.Currency.Bold" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Currency.Normal" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
+    <style name="TextAppearance.Currency.Light" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+</resources>

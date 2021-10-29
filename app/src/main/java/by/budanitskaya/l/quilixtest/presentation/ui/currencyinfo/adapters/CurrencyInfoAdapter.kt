@@ -30,7 +30,6 @@ class CurrencyInfoAdapter(
     override fun getItemViewType(position: Int) = position
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
         when (holder) {
             is CurrencyInfoViewHolder -> holder.bind()
             is CurrencyHeaderViewHolder -> holder.bind()

@@ -4,7 +4,7 @@ import by.budanitskaya.l.quilixtest.data.network.models.RemoteCurrencyInfo
 import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationModel
 
 
-fun makePresentationList(
+fun makePresentationModelList(
     currentDayList: List<RemoteCurrencyInfo>,
     nextDayList: List<RemoteCurrencyInfo>
 ): List<CurrencyPresentationModel> {

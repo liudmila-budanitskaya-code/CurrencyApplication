@@ -18,7 +18,7 @@ class SettingsRepository @Inject constructor(
     private val tempChangesHashMap = hashMapOf<String, Boolean>()
     lateinit var prefsCallback: PrefsCallback
 
-    fun clearTemporaryStorage(){
+    fun clearTemporaryStorage() {
         tempChangesHashMap.clear()
     }
 
@@ -44,7 +44,7 @@ class SettingsRepository @Inject constructor(
         prefsCallback.onPrefsChanged()
     }
 
-    fun getBoolean(key: String): Boolean {
+    private fun getBoolean(key: String): Boolean {
         return sharedPreferences.getBoolean(key, false)
     }
 
@@ -60,11 +60,11 @@ class SettingsRepository @Inject constructor(
         return settingsList
     }
 
-    fun tempSave(charCode: String, isActive: Boolean) {
+    fun temporarilySave(charCode: String, isActive: Boolean) {
         tempChangesHashMap[charCode] = isActive
     }
 
-    fun saveTemporaryChanges() {
+    fun persistTemporaryChanges() {
         for ((key, value) in tempChangesHashMap) {
             setBoolean(key, value)
         }
@@ -80,7 +80,8 @@ class SettingsRepository @Inject constructor(
         return model
     }
 
-    fun applyPrefsToCurrencyList(currencyInitialList: List<CurrencyPresentationModel>): List<CurrencyPresentationModel> {
+    fun applyPrefsToCurrencyList(currencyInitialList: List<CurrencyPresentationModel>)
+            : List<CurrencyPresentationModel> {
         val mutableCurrencyList = currencyInitialList.toMutableList()
         mutableCurrencyList.removeIf { !getBoolean(it.charCode) }
         return mutableCurrencyList.toList()
@@ -94,6 +95,6 @@ class SettingsRepository @Inject constructor(
     }
 }
 
-interface PrefsCallback{
+interface PrefsCallback {
     fun onPrefsChanged()
 }

@@ -3,6 +3,9 @@
     <string name="currency_info_screen_settings">Settings</string>
     <string name="settings_screen_ok">Done</string>
     <string name="currency_info_error_message">Не удалось получить курсы валют</string>
+    <string name="toolbar_fragment_currency_courses">Курсы валют</string>
+    <string name="toolbar_currency_setting">Настройка валют</string>
+    <string name="default_title">Заголовок</string>
 
     <string-array name="currency_char_codes">
         <item>AMD, 1000 армянских драмов</item>

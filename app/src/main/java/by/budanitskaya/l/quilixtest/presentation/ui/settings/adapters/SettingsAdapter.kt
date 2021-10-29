@@ -15,6 +15,18 @@ class SettingsAdapter(
     private val settingsRepository: SettingsRepository
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val differCallBack = object : DiffUtil.ItemCallback<SettingsModel>() {
+
+        override fun areItemsTheSame(oldItem: SettingsModel, newItem: SettingsModel): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: SettingsModel, newItem: SettingsModel): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    val differ = AsyncListDiffer(this, differCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -34,14 +46,10 @@ class SettingsAdapter(
     override fun getItemViewType(position: Int) = position
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
         val item = differ.currentList[position]
-
         when (holder) {
             is SettingsViewHolder -> holder.bind(item)
-            is SettingHeaderViewHolder -> holder.bind()
         }
-
     }
 
     override fun getItemCount(): Int = differ.currentList.size
@@ -54,50 +62,29 @@ class SettingsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: SettingsModel) {
-
-            binding.root.setOnClickListener {
-                onItemClickListener?.let {
-                    it(item)
-
+            with(binding) {
+                root.setOnClickListener {
+                    onItemClickListener?.let {
+                        it(item)
+                    }
                 }
-            }
-            binding.textViewCurrencyName.text = item.name
-            binding.textViewChars.text = item.charCode
+                textViewCurrencyName.text = item.name
+                textViewChars.text = item.charCode
 
-            binding.switchSettings.setOnCheckedChangeListener { buttonView, isChecked ->
-                settingsRepository.tempSave(item.charCode, isChecked)
+                switchSettings.setOnCheckedChangeListener { buttonView, isChecked ->
+                    settingsRepository.temporarilySave(item.charCode, isChecked)
+                }
+                switchSettings.isChecked =
+                    settingsRepository.tempApplyTemporaryChanges(item).isOn
             }
-            binding.switchSettings.isChecked =
-                settingsRepository.tempApplyTemporaryChanges(item).isOn
         }
     }
 
     class SettingHeaderViewHolder(
         binding: HeaderItemBinding,
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind() {
-            // do nothing
-        }
-    }
-
-    private val differCallBack = object : DiffUtil.ItemCallback<SettingsModel>() {
-
-        override fun areItemsTheSame(oldItem: SettingsModel, newItem: SettingsModel): Boolean {
-            return oldItem == newItem
-        }
-
-        override fun areContentsTheSame(oldItem: SettingsModel, newItem: SettingsModel): Boolean {
-            return oldItem == newItem
-        }
-
-
-    }
-
-    val differ = AsyncListDiffer(this, differCallBack)
+    ) : RecyclerView.ViewHolder(binding.root)
 
     fun moveItem(from: Int, to: Int) {
-
         val list = differ.currentList.toMutableList()
         val fromLocation = list[from]
         list.removeAt(from)

@@ -23,5 +23,4 @@ object PreferenceModule {
     }
 
     const val STORAGE_NAME = "Currency Settings"
-
 }

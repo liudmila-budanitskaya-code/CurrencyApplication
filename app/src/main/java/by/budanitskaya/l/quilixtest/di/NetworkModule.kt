@@ -38,7 +38,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideGlobalOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(): OkHttpClient {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()

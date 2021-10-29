@@ -1,19 +1,16 @@
 package by.budanitskaya.l.quilixtest.presentation.ui.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentSettingsBinding
 import by.budanitskaya.l.quilixtest.presentation.ui.settings.adapters.SettingsAdapter
 import by.budanitskaya.l.quilixtest.data.repository.SettingsRepository
-import by.budanitskaya.l.quilixtest.presentation.ui.MainActivity
+import by.budanitskaya.l.quilixtest.utils.CustomItemTounchCallback
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,23 +23,19 @@ class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
 
-    private val viewModel: SettingsViewModel by lazy {
-        ViewModelProvider(this).get(
-            SettingsViewModel::class.java
-        )
+    private val itemTouchHelper by lazy {
+        val itemTouchCallback = CustomItemTounchCallback()
+        ItemTouchHelper(itemTouchCallback)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_settings, container, false
         )
-
         setHasOptionsMenu(true)
         return binding.root
     }
@@ -54,12 +47,14 @@ class SettingsFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         val list = settingsRepository.getSettingsInfo()
-        (activity as MainActivity).itemTouchHelper.attachToRecyclerView(binding.recyclerSettingsInfoList)
         val adapter = SettingsAdapter(settingsRepository)
         adapter.differ.submitList(list)
-        binding.recyclerSettingsInfoList.adapter = adapter
-        binding.recyclerSettingsInfoList.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerSettingsInfoList.visibility = View.VISIBLE
+        with(binding){
+            itemTouchHelper.attachToRecyclerView(recyclerSettingsInfoList)
+            recyclerSettingsInfoList.adapter = adapter
+            recyclerSettingsInfoList.layoutManager = LinearLayoutManager(requireContext())
+            recyclerSettingsInfoList.visibility = View.VISIBLE
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -70,7 +65,7 @@ class SettingsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.option_ok -> {
-                settingsRepository.saveTemporaryChanges()
+                settingsRepository.persistTemporaryChanges()
                 true
             }
             else -> super.onOptionsItemSelected(item)

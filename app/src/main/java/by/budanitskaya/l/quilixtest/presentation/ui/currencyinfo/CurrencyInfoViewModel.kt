@@ -11,8 +11,8 @@ import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationMode
 import by.budanitskaya.l.quilixtest.data.repository.CurrencyRepository
 import by.budanitskaya.l.quilixtest.data.repository.PrefsCallback
 import by.budanitskaya.l.quilixtest.data.repository.SettingsRepository
-import by.budanitskaya.l.quilixtest.utils.getFormatDate
-import by.budanitskaya.l.quilixtest.utils.makePresentationList
+import by.budanitskaya.l.quilixtest.utils.getDateFromNow
+import by.budanitskaya.l.quilixtest.utils.makePresentationModelList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -47,15 +47,15 @@ class CurrencyInfoViewModel @Inject constructor(
     private fun fetchData() {
         _isLoading.value = true
         viewModelScope.launch {
-            val todaysResponse = fetchThisDateData(getFormatDate(0L))
-            val tomorrowsResponse = fetchThisDateData(getFormatDate(1L))
+            val todaysResponse = fetchThisDateData(getDateFromNow(0L))
+            val tomorrowsResponse = fetchThisDateData(getDateFromNow(1L))
 
             if (tomorrowsResponse !is ResponseStatus.Success<RemoteResponseData>
                 && todaysResponse is ResponseStatus.Success<RemoteResponseData>
             ) {
                 // yesterdays flow
                 val todaysCurrencies = todaysResponse.value.listRemoteCurrencyInfo
-                val yesterdayResponse = fetchThisDateData(getFormatDate(-1L))
+                val yesterdayResponse = fetchThisDateData(getDateFromNow(-1L))
                 if (yesterdayResponse is ResponseStatus.Success<RemoteResponseData>) {
                     val yesTerDaysCurrencies = yesterdayResponse.value.listRemoteCurrencyInfo
                     handleYesterDaysCase(yesTerDaysCurrencies, todaysCurrencies)
@@ -85,10 +85,10 @@ class CurrencyInfoViewModel @Inject constructor(
     ) {
         _isLoading.value = false
         dates = Pair(
-            getFormatDate(0L),
-            getFormatDate(1L)
+            getDateFromNow(0L),
+            getDateFromNow(1L)
         )
-        currencyInitialList = makePresentationList(nextDayList, todaysCurrencies)
+        currencyInitialList = makePresentationModelList(nextDayList, todaysCurrencies)
         _currencyDataList.value =
             settingsRepository.applyPrefsToCurrencyList(currencyInitialList)
     }
@@ -105,11 +105,11 @@ class CurrencyInfoViewModel @Inject constructor(
     ) {
         _isLoading.value = false
         dates = Pair(
-            getFormatDate(-1L),
-            getFormatDate(0L)
+            getDateFromNow(-1L),
+            getDateFromNow(0L)
         )
         currencyInitialList =
-            makePresentationList(
+            makePresentationModelList(
                 yesTerDaysCurrencies ?: emptyList(),
                 todaysCurrencies ?: emptyList()
             )
