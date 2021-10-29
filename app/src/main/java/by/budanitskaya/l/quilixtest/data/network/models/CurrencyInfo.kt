@@ -11,7 +11,7 @@ data class CurrencyInfo @JvmOverloads constructor(
 
     @field:Element(name = "CharCode")
     @param:Element(name = "CharCode")
-    var charCode: String? = null,
+    var charCode: String,
 
     @field:Element(name = "Scale")
     @param:Element(name = "Scale")

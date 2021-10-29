@@ -15,6 +15,7 @@ class SettingsRepository @Inject constructor(
 ) {
 
     private val tempChangesHashMap = hashMapOf<String, Boolean>()
+    lateinit var prefsInterface: PrefsInterface
 
     fun initializeApp() {
         if (!sharedPreferences.contains(KEY_APP_INITIALISED)) {
@@ -30,15 +31,17 @@ class SettingsRepository @Inject constructor(
         }
     }
 
-    fun setBoolean(key: String, value: Boolean) {
+    private fun setBoolean(key: String, value: Boolean) {
         with(sharedPreferences.edit()) {
             putBoolean(key, value)
             apply()
         }
+        prefsInterface.onPrefsChanged()
     }
 
-    private fun getBoolean(key: String): Boolean {
-        return sharedPreferences.getBoolean(key, false)
+    fun getBoolean(key: String): Boolean {
+        val bool = sharedPreferences.getBoolean(key, false)
+        return bool
     }
 
     fun getSettingsInfo(): List<SettingsModel> {
@@ -76,4 +79,8 @@ class SettingsRepository @Inject constructor(
     companion object {
         const val KEY_APP_INITIALISED = "Is app initialized?"
     }
+}
+
+interface PrefsInterface{
+    fun onPrefsChanged()
 }

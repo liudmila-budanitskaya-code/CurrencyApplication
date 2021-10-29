@@ -37,7 +37,7 @@ class CurrencyInfoAdapter(
         }
     }
 
-    override fun getItemCount(): Int = currencyData.size
+    override fun getItemCount(): Int = currencyData.size+1
 
 
     class CurrencyInfoViewHolder(
@@ -46,15 +46,15 @@ class CurrencyInfoAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
-            binding.textViewCharCode.text = currencyData[adapterPosition].charCode
-            val charCode = currencyData[adapterPosition].charCode
+            binding.textViewCharCode.text = currencyData[adapterPosition-1].charCode
+            val charCode = currencyData[adapterPosition-1].charCode
             binding.textViewCharCode.text = charCode
 
-            val name = currencyData[adapterPosition].name
+            val name = currencyData[adapterPosition-1].name
             binding.textViewNumCodeName.text = "$name"
-            val currentCurrencyInfo = currencyData[adapterPosition].currentDayRate
+            val currentCurrencyInfo = currencyData[adapterPosition-1].currentDayRate
             binding.textViewYesterdayRate.text = currentCurrencyInfo.toString()
-            val tomorrowCurrencyInfo = currencyData[adapterPosition].nextDayRate
+            val tomorrowCurrencyInfo = currencyData[adapterPosition-1].nextDayRate
             binding.textViewTodayRate.text = tomorrowCurrencyInfo.toString()
         }
     }

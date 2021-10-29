@@ -9,13 +9,18 @@ import by.budanitskaya.l.quilixtest.data.network.models.ResponseData
 import by.budanitskaya.l.quilixtest.data.network.safeapicall.ResponseStatus
 import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationModel
 import by.budanitskaya.l.quilixtest.data.repository.CurrencyRepository
+import by.budanitskaya.l.quilixtest.data.repository.PrefsInterface
+import by.budanitskaya.l.quilixtest.data.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CurrencyInfoViewModel @Inject constructor(var currencyRepository: CurrencyRepository) :
-    ViewModel() {
+class CurrencyInfoViewModel @Inject constructor(
+    var currencyRepository: CurrencyRepository,
+    val settingsRepository: SettingsRepository
+) :
+    ViewModel(), PrefsInterface {
 
     private val _currencyDataList = MutableLiveData<List<CurrencyPresentationModel>>()
     val currencyDataList: LiveData<List<CurrencyPresentationModel>> = _currencyDataList
@@ -29,8 +34,11 @@ class CurrencyInfoViewModel @Inject constructor(var currencyRepository: Currency
     private val _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _isError
 
+    lateinit var currencyInitialList: List<CurrencyPresentationModel>
+
     init {
         fetchData()
+        settingsRepository.prefsInterface = this
     }
 
     private fun fetchData() {
@@ -47,10 +55,18 @@ class CurrencyInfoViewModel @Inject constructor(var currencyRepository: Currency
                     currentDayData.value.listCurrencyInfo ?: emptyList()
                 val nextDayList = nextDayData.value.listCurrencyInfo ?: emptyList()
                 _isLoading.value = false
-                _currencyDataList.value = getDisplayedList(currentDayList, nextDayList)
+                currencyInitialList = getDisplayedList(currentDayList, nextDayList)
+                _currencyDataList.value = applyPrefsToCurrencyList(currencyInitialList)
             }
         }
     }
+
+    private fun applyPrefsToCurrencyList(currencyInitialList: List<CurrencyPresentationModel>): List<CurrencyPresentationModel> {
+        val mutableCurrencyList = currencyInitialList.toMutableList()
+        mutableCurrencyList.removeIf { !settingsRepository.getBoolean(it.charCode) }
+        return mutableCurrencyList.toList()
+    }
+
 
     private fun getDisplayedList(
         currentDayList: List<CurrencyInfo>,
@@ -67,4 +83,8 @@ class CurrencyInfoViewModel @Inject constructor(var currencyRepository: Currency
     }
 
     private suspend fun fetchSpecificDateData(date: String) = currencyRepository.fetchData(date)
+
+    override fun onPrefsChanged() {
+        _currencyDataList.value = applyPrefsToCurrencyList(currencyInitialList)
+    }
 }
