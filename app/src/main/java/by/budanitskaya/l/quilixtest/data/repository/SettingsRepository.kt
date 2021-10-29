@@ -24,24 +24,26 @@ class SettingsRepository @Inject constructor(
 
     fun initializeApp() {
         if (!sharedPreferences.contains(KEY_APP_INITIALISED)) {
-            setBoolean(KEY_APP_INITIALISED, true)
+            setBoolean(KEY_APP_INITIALISED, true, false)
             context.resources.getStringArray(R.array.currency_char_codes).forEach {
                 val item = it.split(", ")[0]
                 if (item != USD && item != RUB && item != EUR) {
-                    setBoolean(item, false)
+                    setBoolean(item, false, false)
                 } else {
-                    setBoolean(item, true)
+                    setBoolean(item, true, false)
                 }
             }
         }
     }
 
-    private fun setBoolean(key: String, value: Boolean) {
+    private fun setBoolean(key: String, value: Boolean, isAppInitialized: Boolean) {
         with(sharedPreferences.edit()) {
             putBoolean(key, value)
             apply()
         }
-        prefsCallback.onPrefsChanged()
+        if(isAppInitialized){
+            prefsCallback.onPrefsChanged()
+        }
     }
 
     private fun getBoolean(key: String): Boolean {
@@ -66,7 +68,7 @@ class SettingsRepository @Inject constructor(
 
     fun persistTemporaryChanges() {
         for ((key, value) in tempChangesHashMap) {
-            setBoolean(key, value)
+            setBoolean(key, value, true)
         }
     }
 

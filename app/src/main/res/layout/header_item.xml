@@ -10,7 +10,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_yesterday_date"
-            android:layout_width="@dimen/dimen_80"
+            android:layout_width="@dimen/dimen_100"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen_10"
             android:background="@android:color/transparent"
@@ -21,7 +21,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_today_date"
-            android:layout_width="@dimen/dimen_80"
+            android:layout_width="@dimen/dimen_100"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             style="@style/CurrencyCountTextViewStyle"
@@ -30,4 +30,5 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

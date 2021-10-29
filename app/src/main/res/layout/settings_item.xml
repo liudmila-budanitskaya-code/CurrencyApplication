@@ -41,7 +41,7 @@
 
         <ImageView
             android:id="@+id/image_view_drag_n_drop"
-            android:layout_width="@dimen/dimen_80"
+            android:layout_width="@dimen/dimen_100"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:src="@drawable/ic_drag_n_drop"
@@ -50,4 +50,5 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -31,7 +31,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_yesterday_rate"
-            android:layout_width="@dimen/dimen_80"
+            android:layout_width="@dimen/dimen_100"
             android:layout_height="wrap_content"
             tools:text="TextView"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +41,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_today_rate"
-            android:layout_width="@dimen/dimen_80"
+            android:layout_width="@dimen/dimen_100"
             android:layout_height="wrap_content"
             android:gravity="start"
             tools:text="TextView"
