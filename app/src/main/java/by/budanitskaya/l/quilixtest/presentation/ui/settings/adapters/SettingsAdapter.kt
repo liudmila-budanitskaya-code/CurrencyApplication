@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import by.budanitskaya.l.quilixtest.data.repository.SettingsRepository
 import by.budanitskaya.l.quilixtest.databinding.HeaderItemBinding
 import by.budanitskaya.l.quilixtest.databinding.SettingsItemBinding
 import by.budanitskaya.l.quilixtest.presentation.models.SettingsModel
-import by.budanitskaya.l.quilixtest.data.repository.SettingsRepository
 
 
 class SettingsAdapter(

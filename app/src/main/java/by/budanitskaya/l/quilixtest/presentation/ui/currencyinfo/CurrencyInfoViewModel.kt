@@ -11,6 +11,7 @@ import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationMode
 import by.budanitskaya.l.quilixtest.data.repository.CurrencyRepository
 import by.budanitskaya.l.quilixtest.data.repository.PrefsCallback
 import by.budanitskaya.l.quilixtest.data.repository.SettingsRepository
+import by.budanitskaya.l.quilixtest.data.repository.SettingsRepositoryImpl
 import by.budanitskaya.l.quilixtest.utils.getDateFromNow
 import by.budanitskaya.l.quilixtest.utils.makePresentationModelList
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,10 +20,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CurrencyInfoViewModel @Inject constructor(
-    var currencyRepository: CurrencyRepository,
+    private var currencyRepository: CurrencyRepository,
     val settingsRepository: SettingsRepository
 ) :
     ViewModel(), PrefsCallback {
+
+    companion object {
+        const val PLUS_ONE_DAY = 1L
+        const val MINUS_ONE_DAY = -1L
+        const val THIS_DAY = 0L
+    }
 
     private val _currencyDataList = MutableLiveData<List<CurrencyPresentationModel>>()
     val currencyDataList: LiveData<List<CurrencyPresentationModel>> = _currencyDataList
@@ -41,21 +48,21 @@ class CurrencyInfoViewModel @Inject constructor(
 
     init {
         fetchData()
-        settingsRepository.prefsCallback = this
+        (settingsRepository as SettingsRepositoryImpl).prefsCallback = this
     }
 
     private fun fetchData() {
         _isLoading.value = true
         viewModelScope.launch {
-            val todaysResponse = fetchThisDateData(getDateFromNow(0L))
-            val tomorrowsResponse = fetchThisDateData(getDateFromNow(1L))
+            val todaysResponse = fetchThisDateData(getDateFromNow(THIS_DAY))
+            val tomorrowsResponse = fetchThisDateData(getDateFromNow(PLUS_ONE_DAY))
 
             if (tomorrowsResponse !is ResponseStatus.Success<RemoteResponseData>
                 && todaysResponse is ResponseStatus.Success<RemoteResponseData>
             ) {
                 // yesterdays flow
                 val todaysCurrencies = todaysResponse.value.listRemoteCurrencyInfo
-                val yesterdayResponse = fetchThisDateData(getDateFromNow(-1L))
+                val yesterdayResponse = fetchThisDateData(getDateFromNow(MINUS_ONE_DAY))
                 if (yesterdayResponse is ResponseStatus.Success<RemoteResponseData>) {
                     val yesTerDaysCurrencies = yesterdayResponse.value.listRemoteCurrencyInfo
                     handleYesterDaysCase(yesTerDaysCurrencies, todaysCurrencies)
@@ -73,7 +80,7 @@ class CurrencyInfoViewModel @Inject constructor(
                 val nextDayList = tomorrowsResponse.value.listRemoteCurrencyInfo ?: emptyList()
                 handleTommorowsCase(
                     nextDayList,
-                    todaysResponse.value.listRemoteCurrencyInfo?: emptyList()
+                    todaysResponse.value.listRemoteCurrencyInfo ?: emptyList()
                 )
             }
         }
@@ -85,8 +92,8 @@ class CurrencyInfoViewModel @Inject constructor(
     ) {
         _isLoading.value = false
         dates = Pair(
-            getDateFromNow(0L),
-            getDateFromNow(1L)
+            getDateFromNow(THIS_DAY),
+            getDateFromNow(PLUS_ONE_DAY)
         )
         currencyInitialList = makePresentationModelList(nextDayList, todaysCurrencies)
         _currencyDataList.value =
@@ -105,8 +112,8 @@ class CurrencyInfoViewModel @Inject constructor(
     ) {
         _isLoading.value = false
         dates = Pair(
-            getDateFromNow(-1L),
-            getDateFromNow(0L)
+            getDateFromNow(MINUS_ONE_DAY),
+            getDateFromNow(THIS_DAY)
         )
         currencyInitialList =
             makePresentationModelList(
@@ -121,7 +128,8 @@ class CurrencyInfoViewModel @Inject constructor(
     private suspend fun fetchThisDateData(date: String) = currencyRepository.fetchData(date)
 
     override fun onPrefsChanged() {
-        _currencyDataList.value = settingsRepository.applyPrefsToCurrencyList(currencyInitialList)
+        _currencyDataList.value =
+            settingsRepository.applyPrefsToCurrencyList(currencyInitialList)
     }
 
     fun getDates() = dates
