@@ -7,21 +7,21 @@ import org.simpleframework.xml.Root
 data class RemoteCurrencyInfo @JvmOverloads constructor(
     @field:Element(name = "NumCode")
     @param:Element(name = "NumCode")
-    var numCode: Int?,
+    val numCode: Int?,
 
     @field:Element(name = "CharCode")
     @param:Element(name = "CharCode")
-    var charCode: String?,
+    val charCode: String?,
 
     @field:Element(name = "Scale")
     @param:Element(name = "Scale")
-    var scale: Int?,
+    val scale: Int?,
 
     @field:Element(name = "Name")
     @param:Element(name = "Name")
-    var name: String?,
+    val name: String?,
 
     @field:Element(name = "Rate")
     @param:Element(name = "Rate")
-    var rate: Float?
+    val rate: Float?
 )

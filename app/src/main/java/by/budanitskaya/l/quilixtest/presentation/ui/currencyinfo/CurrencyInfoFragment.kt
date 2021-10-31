@@ -5,7 +5,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentCurrencyInfoBinding
 import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationModel
@@ -56,7 +55,7 @@ class CurrencyInfoFragment : Fragment() {
 
     private fun initObservers() {
         viewModel.currencyDataList.observe(viewLifecycleOwner, {
-            setUpRecyclerView(it, viewModel.getDates() ?: Pair("", ""))
+            setUpRecyclerView(it, viewModel.getDates())
         })
 
         viewModel.isMenuVisible.observe(viewLifecycleOwner, {

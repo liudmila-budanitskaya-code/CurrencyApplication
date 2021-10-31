@@ -7,5 +7,5 @@ import org.simpleframework.xml.Root
 data class RemoteResponseData @JvmOverloads constructor(
     @field:ElementList(name = "Currency", inline = true, required = false)
     @param:ElementList(name = "Currency", inline = true, required = false)
-    var listRemoteCurrencyInfo: List<RemoteCurrencyInfo>?
+    val listRemoteCurrencyInfo: List<RemoteCurrencyInfo>?
 )
