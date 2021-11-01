@@ -55,32 +55,34 @@ class CurrencyInfoViewModel @Inject constructor(
         _isLoading.value = true
         viewModelScope.launch {
             val todaysResponse = fetchThisDateData(getDateFromNow(THIS_DAY))
-            if (todaysResponse !is ResponseStatus.Success<RemoteResponseData>) {
-                handleError()
-                return@launch
-            }
-            val thisDayList = todaysResponse.value.listRemoteCurrencyInfo ?: emptyList()
-
             val tomorrowsResponse = fetchThisDateData(getDateFromNow(PLUS_ONE_DAY))
 
-            if (tomorrowsResponse is ResponseStatus.Success<RemoteResponseData>) {
-                //tomorrows case
+            if (tomorrowsResponse !is ResponseStatus.Success<RemoteResponseData>
+                && todaysResponse is ResponseStatus.Success<RemoteResponseData>
+            ) {
+                // yesterdays flow
+                val todaysCurrencies = todaysResponse.value.listRemoteCurrencyInfo
+                val yesterdayResponse = fetchThisDateData(getDateFromNow(MINUS_ONE_DAY))
+                if (yesterdayResponse is ResponseStatus.Success<RemoteResponseData>) {
+                    val yesTerDaysCurrencies = yesterdayResponse.value.listRemoteCurrencyInfo
+                    handleYesterDaysCase(yesTerDaysCurrencies, todaysCurrencies)
+                }
+            }
+
+            if (todaysResponse !is ResponseStatus.Success<RemoteResponseData>
+                && tomorrowsResponse !is ResponseStatus.Success<RemoteResponseData>
+            ) {
+                handleError()
+            }
+            if (tomorrowsResponse is ResponseStatus.Success<RemoteResponseData>
+                && todaysResponse is ResponseStatus.Success<RemoteResponseData>
+            ) {
                 val nextDayList = tomorrowsResponse.value.listRemoteCurrencyInfo ?: emptyList()
                 handleTommorowsCase(
                     nextDayList,
-                    thisDayList
+                    todaysResponse.value.listRemoteCurrencyInfo ?: emptyList()
                 )
-                return@launch
             }
-            val yesterdayResponse = fetchThisDateData(getDateFromNow(MINUS_ONE_DAY))
-            if (yesterdayResponse is ResponseStatus.Success<RemoteResponseData>) {
-                // yesterdays flow
-                val yesTerDaysCurrencies = yesterdayResponse.value.listRemoteCurrencyInfo
-                handleYesterDaysCase(yesTerDaysCurrencies, thisDayList)
-            } else {
-                handleError()
-            }
-            return@launch
         }
     }
 
@@ -121,6 +123,7 @@ class CurrencyInfoViewModel @Inject constructor(
         _currencyDataList.value =
             settingsRepository.applyPrefsToCurrencyList(currencyInitialList)
     }
+
 
     private suspend fun fetchThisDateData(date: String) = currencyRepository.fetchData(date)
 
