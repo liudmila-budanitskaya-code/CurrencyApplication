@@ -3,6 +3,7 @@ package by.budanitskaya.l.quilixtest.di
 import by.budanitskaya.l.quilixtest.data.network.apiservice.ApiService
 import by.budanitskaya.l.quilixtest.BuildConfig
 import by.budanitskaya.l.quilixtest.data.network.responsewrapper.SafeApiCall
+import by.budanitskaya.l.quilixtest.data.network.responsewrapper.SafeApiCallImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,7 +34,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideSafeApiCall(): SafeApiCall {
-        return SafeApiCall()
+        return SafeApiCallImpl()
     }
 
     @Provides
