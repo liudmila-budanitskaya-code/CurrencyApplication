@@ -1,20 +1,24 @@
 package by.budanitskaya.l.quilixtest.presentation.ui.currencyinfo
 
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import by.budanitskaya.l.quilixtest.ConnectivityReceiver
 import by.budanitskaya.l.quilixtest.R
 import by.budanitskaya.l.quilixtest.databinding.FragmentCurrencyInfoBinding
 import by.budanitskaya.l.quilixtest.presentation.models.CurrencyPresentationModel
 import by.budanitskaya.l.quilixtest.presentation.ui.MainActivity
 import by.budanitskaya.l.quilixtest.presentation.ui.currencyinfo.adapters.CurrencyInfoAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class CurrencyInfoFragment : Fragment() {
+class CurrencyInfoFragment : Fragment(), ConnectivityReceiver.ConnectivityReceiverListener {
 
     private val viewModel: CurrencyInfoViewModel by lazy {
         ViewModelProvider(this).get(
@@ -23,6 +27,10 @@ class CurrencyInfoFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentCurrencyInfoBinding
+
+    private val connectivityreceiver by lazy {
+        ConnectivityReceiver()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +43,14 @@ class CurrencyInfoFragment : Fragment() {
         )
         binding.lifecycleOwner = this
         binding.viewmodel = viewModel
-        setHasOptionsMenu(true)
+        activity?.registerReceiver(connectivityreceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        ConnectivityReceiver.connectivityReceiverListener = this
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,8 +72,13 @@ class CurrencyInfoFragment : Fragment() {
             setUpRecyclerView(it, viewModel.getDates() ?: Pair("", ""))
         })
 
-        viewModel.isMenuVisible.observe(viewLifecycleOwner, {
-            setHasOptionsMenu(false)
+        viewModel.isError.observe(viewLifecycleOwner, {
+            setHasOptionsMenu(!it)
+            if(it == false){
+                binding.recyclerCurrencyInfoList.visibility = View.VISIBLE
+            } else {
+                binding.recyclerCurrencyInfoList.visibility = View.GONE
+            }
         })
     }
 
@@ -78,5 +96,14 @@ class CurrencyInfoFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onNetworkConnectionChanged(isConnected: Boolean) {
+        viewModel.fetchData()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activity?.unregisterReceiver(connectivityreceiver)
     }
 }

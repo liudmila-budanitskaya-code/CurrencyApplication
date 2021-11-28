@@ -37,9 +37,6 @@ class CurrencyInfoViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _isMenuVisible = MutableLiveData<Unit>()
-    val isMenuVisible: LiveData<Unit> = _isMenuVisible
-
     private val _isError = MutableLiveData<Boolean>()
     val isError: LiveData<Boolean> = _isError
 
@@ -51,8 +48,9 @@ class CurrencyInfoViewModel @Inject constructor(
         (settingsRepository as SettingsRepositoryImpl).prefsCallback = this
     }
 
-    private fun fetchData() {
+    fun fetchData() {
         _isLoading.value = true
+        _isError.value = false
         viewModelScope.launch {
             val todaysResponse = fetchThisDateData(getDateFromNow(THIS_DAY))
             if (todaysResponse !is ResponseStatus.Success<RemoteResponseData>) {
@@ -70,6 +68,7 @@ class CurrencyInfoViewModel @Inject constructor(
                     nextDayList,
                     thisDayList
                 )
+                _isError.value = false
                 return@launch
             }
             val yesterdayResponse = fetchThisDateData(getDateFromNow(MINUS_ONE_DAY))
@@ -77,6 +76,7 @@ class CurrencyInfoViewModel @Inject constructor(
                 // yesterdays flow
                 val yesTerDaysCurrencies = yesterdayResponse.value.listRemoteCurrencyInfo
                 handleYesterDaysCase(yesTerDaysCurrencies, thisDayList)
+                _isError.value = false
             } else {
                 handleError()
             }
@@ -100,7 +100,6 @@ class CurrencyInfoViewModel @Inject constructor(
 
     private fun handleError() {
         _isError.value = true
-        _isMenuVisible.value = Unit
         _isLoading.value = false
     }
 
