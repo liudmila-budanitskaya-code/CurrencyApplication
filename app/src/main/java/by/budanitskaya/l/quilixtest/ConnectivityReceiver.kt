@@ -5,18 +5,17 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.Exception
 
 
 @AndroidEntryPoint
 class ConnectivityReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (connectivityReceiverListener != null) {
-            connectivityReceiverListener!!.onNetworkConnectionChanged(
-                isConnectedOrConnecting(
-                    context!!
-                )
+        connectivityReceiverListener?.onNetworkConnectionChanged(
+            isConnectedOrConnecting(
+                context ?: throw Exception()
             )
-        }
+        )
     }
 
     private fun isConnectedOrConnecting(context: Context): Boolean {
